@@ -1,5 +1,6 @@
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, ServiceContext
 from llama_index.llms.openai import OpenAI
+from llama_index.core.llms import ChatMessage
 import os
 from typing import Tuple, List
 from dotenv import load_dotenv
@@ -20,9 +21,12 @@ class RAGEngine:
         # Load OpenAI API key from environment variable
         if not os.getenv("OPENAI_API_KEY"):
             raise ValueError("OPENAI_API_KEY environment variable not set")
-            
+        
+        model = os.getenv("OPENAI_MODEL", "gpt-4o")
+        temperature = float(os.getenv("OPENAI_TEMPERATURE", 0.7))
+
         # Initialize the LLM
-        # self.llm = OpenAI(temperature=0.1, model="gpt-3.5-turbo")
+        self.llm = OpenAI(temperature=temperature, model=model)
         
         # # Create service context
         # self.service_context = ServiceContext.from_defaults(llm=self.llm)
@@ -43,16 +47,19 @@ class RAGEngine:
             service_context=self.service_context
         )
     
-    def process_query(self, query: str) -> Tuple[str, List[str]]:
+    def process_query(self, msg_list: List[Tuple[str, bool]]) -> Tuple[str, List[str]]:
         """
-        Process a user query using RAG.
-        
-        Args:
-            query (str): User's question or message
-            
-        Returns:
-            Tuple[str, List[str]]: Tuple containing (response text, list of source documents)
+        Process a user query using RAG with the provided chat history.
         """
+        messages = [
+            ChatMessage(role="system", content="You are a helpful AI assistant"),
+        ]
+        for msg in msg_list:
+            role = "user" if msg[1] else "assistant"
+            messages.append(ChatMessage(role=role, content=msg[0]))
+        resp = OpenAI().chat(messages)        
+        return resp.message.content.strip(), []
+
         # Create query engine
         query_engine = self.index.as_query_engine()
         

@@ -2,13 +2,13 @@ const { useState, useEffect, useRef } = React;
 
 // Add this near the top of the file, after the React imports
 const apiService = {
-    async sendChatMessage(message) {
+    async sendChatMessage(message, sessionId) {
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ message })
+            body: JSON.stringify({ message: message, session_id: sessionId })
         });
         
         if (!response.ok) {
@@ -20,6 +20,14 @@ const apiService = {
 
     async refreshIndex() {
         return mockApiCall('/api/refresh-index');
+    },
+
+    async getHistory(sessionId) {
+        const response = await fetch(`/api/get-history?session_id=${sessionId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch chat history');
+        }
+        return response.json();
     }
 };
 
@@ -32,14 +40,7 @@ const mockApiCall = (endpoint, data) => new Promise((resolve, reject) => {
             // Simulate an error response every other call
             reject(new Error("An error occurred while processing your request."));
         } else {
-            // Provide mock responses based on the endpoint
-            if (endpoint === '/api/chat') {
-                resolve({ response: "This is a mock response from the AI." });
-            } else if (endpoint === '/api/refresh-index') {
-                resolve({ success: true, message: "Index refreshed successfully." });
-            } else {
-                resolve({});
-            }
+            resolve({ success: true, message: "Index refreshed successfully." });
         }
     }, 1000); // Simulated network latency of 1 second
 });
@@ -51,7 +52,8 @@ const mockApiCall = (endpoint, data) => new Promise((resolve, reject) => {
  */
 const Notification = ({ message, type, onClose }) => {
     useEffect(() => { 
-        const timer = setTimeout(onClose, 3000); // Auto-close notification
+        const timer = setTimeout(onClose, 2000); // Auto-close notification
+        lucide.createIcons();
         return () => clearTimeout(timer); // Cleanup timer on unmount
     }, [onClose]);
 
@@ -60,8 +62,8 @@ const Notification = ({ message, type, onClose }) => {
     const icon = type === 'error' ? 'alert-circle' : 'check-circle';
 
     return (
-        <div className={`${bgColor} text-white px-4 py-2 rounded-lg shadow-lg fade-in flex items-center`}>
-            <i data-lucide={icon} className="w-5 h-5 mr-2"></i>
+        <div className={`${bgColor} text-white text-sm px-4 py-2 rounded-lg shadow-lg fade-in flex items-center`}>
+            <i data-lucide={icon} className="w-4 h-4 mr-2"></i>
             {message}
         </div>
     );
@@ -79,19 +81,46 @@ const Chat = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [notification, setNotification] = useState(null);
+    const [sessionId, setSessionId] = useState(() => localStorage.getItem('session_id') || generateUUID());
+
+    // Save chatUuid to localStorage to persist across reloads
+    useEffect(() => {
+        localStorage.setItem('session_id', sessionId);
+    }, [sessionId]);
 
     // Refs to manage scrolling and input focus
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
 
     /**
+     * Scrolls the chat window to the bottom
+     */
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    /**
      * Effect Hook: Scrolls to the bottom of the chat window whenever messages or notifications change.
      * Also initializes Lucide icons after updates.
      */
     useEffect(() => { 
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); 
+        const fetchHistory = async () => {
+            try {
+                const history = await apiService.getHistory(sessionId);
+                const formattedHistory = history.map(([text, isUser]) => ({
+                    text,
+                    isUser: Boolean(isUser)
+                }));
+                setMessages(formattedHistory);
+                scrollToBottom();
+            } catch (error) {
+                console.error('Error fetching chat history:', error);
+            }
+        };
+
+        fetchHistory();
         lucide.createIcons(); // Initialize icons after DOM updates
-    }, [messages, notification, isLoading]);
+    }, [sessionId]);
 
     /**
      * Effect Hook: Automatically focuses the input field when the component mounts.
@@ -111,27 +140,22 @@ const Chat = () => {
 
         setIsLoading(true);
         // Add user's message to the chat
-        setMessages(prev => [...prev, { text: trimmedInput, isUser: true, id: Date.now() }]);
+        const userMessage = { text: trimmedInput, isUser: true };
+        setMessages(prev => [...prev, userMessage]);
         setInput(''); // Clear input field
 
         try {
-            // Make API call to '/api/chat' endpoint
-            // const data = await mockApiCall('/api/chat', { message: trimmedInput });
-            // Add AI's response to the chat
-            // setMessages(prev => [...prev, { text: response.message, isUser: false, id: Date.now() }]);
-            const data = await apiService.sendChatMessage(trimmedInput);
-            setMessages(prev => [...prev, { 
-                text: data.response, 
-                sources: data.sources,
-                isUser: false, 
-                id: Date.now() 
-            }]);
+            const data = await apiService.sendChatMessage(trimmedInput, sessionId);
+            const aiMessage = { text: data.response, isUser: false };
+            setMessages(prev => [...prev, aiMessage]);
         } catch (error) {
             // Handle and display error message in chat
-            setMessages(prev => [...prev, { text: error.message, isUser: false, id: Date.now(), isError: true }]);
+            const errorMessage = { text: error.message, isUser: false };
+            setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
             inputRef.current?.focus(); // Refocus input after sending
+            scrollToBottom();
         }
     };
 
@@ -142,7 +166,6 @@ const Chat = () => {
     const refreshIndex = async () => {
         setIsRefreshing(true);
         try {
-            // const response = await mockApiCall('/api/refresh-index');
             const response = await apiService.refreshIndex();
             // Show success notification upon successful index refresh
             setNotification({ message: response.message, type: 'success' });
@@ -156,13 +179,18 @@ const Chat = () => {
 
     /**
      * Resets the chat by clearing all messages and input.
+     * Generates a new session_id.
      * Provides user feedback via a notification.
      */
-    const resetChat = () => {
-        setMessages([]);
-        setInput('');
-        inputRef.current?.focus(); // Refocus input after reset
-        setNotification({ message: "Chat history cleared", type: 'success' });
+    const resetChat = async () => {
+        try {
+            setSessionId(generateUUID());
+            setMessages([]);
+            setInput('');
+            setNotification({ message: "Chat history cleared", type: 'success' });
+        } catch (error) {
+            setNotification({ message: error.message, type: 'error' });
+        }
     };
 
     return (
@@ -219,13 +247,11 @@ const ChatWindow = ({ messages, isLoading, sendMessage, input, setInput, inputRe
                         Start a conversation by sending a message.
                     </div>
                 )}
-                {messages.map(msg => (
-                    <div key={msg.id} className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}>
+                {messages.map((msg, index) => (
+                    <div key={index} className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}>
                         <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg shadow-md ${msg.isUser 
                             ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white ml-auto' 
-                            : msg.isError 
-                                ? 'bg-red-100 border border-red-300 text-red-700' 
-                                : 'bg-white border border-gray-200'} fade-in`}>
+                            : 'bg-white border border-gray-200'} fade-in`}>
                             {msg.text}
                         </div>
                     </div>
@@ -329,3 +355,8 @@ const Footer = () => (
  * Entry point of the React application.
  */
 ReactDOM.render(<Chat />, document.getElementById('root'));
+
+// Utility function to generate UUID
+function generateUUID() {
+    return crypto.randomUUID();
+}
