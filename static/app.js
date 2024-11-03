@@ -17,7 +17,9 @@ const apiService = {
     },
 
     async refreshIndex() {
-        return mockApiCall('/api/refresh-index');
+        const response = await fetch('/api/refresh-index', { method: 'POST' });
+        if (!response.ok) throw new Error('Failed to get response from API');
+        return response.json();
     },
 
     async getHistory(sessionId) {
@@ -26,20 +28,6 @@ const apiService = {
         return response.json();
     },
 };
-
-// Mock API with alternating success and error responses to simulate real-world API behavior
-let callCount = 0;
-const mockApiCall = (endpoint) =>
-    new Promise((resolve, reject) => {
-        setTimeout(() => {
-            callCount++;
-            if (callCount % 2 === 0) {
-                reject(new Error('An error occurred while processing your request.'));
-            } else {
-                resolve({ success: true, message: 'Action completed successfully.' });
-            }
-        }, 1000);
-    });
 
 /**
  * Notification Component
