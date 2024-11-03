@@ -1,7 +1,7 @@
 [project]
-name = "demo-finance-rag-llama-index"
+name = "demo-finance-customer-support"
 version = "0.1.0"
-description = "Demo Finance RAG (LLamaIndex)"
+description = "Demo Finance Customer Support"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [

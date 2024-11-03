@@ -76,35 +76,39 @@ class RAGEngine:
         """
         Process a user query using RAG with the provided chat history.
         """
-        lyft_engine = self.lyft_index.as_query_engine(similarity_top_k=3)
-        uber_engine = self.uber_index.as_query_engine(similarity_top_k=3)
-        query_engine_tools = [
-            QueryEngineTool(
-                query_engine=lyft_engine,
-                metadata=ToolMetadata(
-                    name="lyft_10k",
-                    description=(
-                        "Provides information about Lyft financials for year 2021"
+        try:
+            lyft_engine = self.lyft_index.as_query_engine(similarity_top_k=3)
+            uber_engine = self.uber_index.as_query_engine(similarity_top_k=3)
+            query_engine_tools = [
+                QueryEngineTool(
+                    query_engine=lyft_engine,
+                    metadata=ToolMetadata(
+                        name="lyft_10k",
+                        description=(
+                            "Provides information about Lyft financials for year 2021"
+                        ),
                     ),
                 ),
-            ),
-            QueryEngineTool(
-                query_engine=uber_engine,
-                metadata=ToolMetadata(
-                    name="uber_10k",
-                    description=(
-                        "Provides information about Uber financials for year 2021"
+                QueryEngineTool(
+                    query_engine=uber_engine,
+                    metadata=ToolMetadata(
+                        name="uber_10k",
+                        description=(
+                            "Provides information about Uber financials for year 2021"
+                        ),
                     ),
                 ),
-            ),
-        ]
+            ]
 
-        s_engine = SubQuestionQueryEngine.from_defaults(
-            query_engine_tools=query_engine_tools
-        )
-        response = s_engine.query(msg_list[-1][0]) # last user message
-        # print(response.source_nodes)
-        return str(response), []
+            s_engine = SubQuestionQueryEngine.from_defaults(
+                query_engine_tools=query_engine_tools
+            )
+            response = s_engine.query(msg_list[-1][0]) # last user message
+            # print(response.source_nodes)
+            return str(response), []
+        except Exception as e:
+            print(e)
+            return "Error processing request. Try again.", []
 
         # ------------------------------------------------------------------------
         messages = [

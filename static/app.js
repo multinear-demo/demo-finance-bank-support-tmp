@@ -179,7 +179,7 @@ const Chat = () => {
 const Header = () => (
     <header className="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white p-6 py-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <h1 className="text-xl font-bold">Demo Finance RAG</h1>
+            <h1 className="text-xl font-bold">Demo Finance Customer Support</h1>
             <div className="flex items-center text-sm space-x-2 mt-2 sm:mt-0 justify-end pl-8">
                 <span>
                     Powered by
@@ -308,13 +308,13 @@ const Footer = () => (
             <a href="https://multinear.com" target="_blank" className="text-indigo-600 hover:text-indigo-800 px-1">Multinear</a>
             2024 
             <span className="text-gray-400 px-2">|</span>
-            <a href="https://github.com/multinear/demo-finance-rag-llama-index" 
+            <a href="https://github.com/multinear/demo-finance-customer-support" 
                 target="_blank" 
                 className="text-indigo-600 hover:text-indigo-800 flex items-center">
                 <span className="border border-gray-500 rounded-full p-1 mr-1">
                     <i data-lucide="github" className="w-3 h-3 text-gray-500"></i>
                 </span>
-                Repository
+                Repo
             </a>
             <span className="text-gray-400 px-2">|</span>
             <a href="https://multinear.com/docs/" 
@@ -323,7 +323,7 @@ const Footer = () => (
                 <span className="border border-gray-500 rounded-full p-1 mr-1">
                     <i data-lucide="book-open" className="w-3 h-3 text-gray-500"></i>
                 </span>
-                Documentation
+                Docs
             </a>
         </p>
     </footer>
