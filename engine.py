@@ -30,7 +30,16 @@ class RAGEngine:
         temperature = float(os.getenv("OPENAI_TEMPERATURE", 0.7))
 
         # Initialize the LLM
-        self.llm = OpenAI(temperature=temperature, model=model)
+        # self.llm = OpenAI(temperature=temperature, model=model)
+        from llama_index.core import Settings
+        Settings.llm = OpenAI(temperature=0.2, model="gpt-4o")
+        # print(Settings.llm._get_client())
+        # logfire.instrument_openai(Settings.llm._client)
+
+        if os.getenv("TRACE_LOGFIRE", False):
+            import logfire
+            logfire.configure()
+            logfire.instrument_openai(Settings.llm._get_client())
 
         # # Create service context
         # self.service_context = ServiceContext.from_defaults(llm=self.llm)

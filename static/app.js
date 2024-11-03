@@ -64,7 +64,7 @@ const Chat = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [notification, setNotification] = useState(null);
-    const [sessionId, setSessionId] = useState(() => localStorage.getItem('session_id') || generateUUID());
+    const [sessionId, setSessionId] = useState(() => localStorage.getItem('session_id') || generateID());
 
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
@@ -142,7 +142,7 @@ const Chat = () => {
 
     // Handler to reset chat
     const resetChat = useCallback(() => {
-        setSessionId(generateUUID());
+        setSessionId(generateID());
         setMessages([]);
         setInput('');
         setNotification({ message: 'Chat history cleared.', type: 'success' });
@@ -303,14 +303,28 @@ const Actions = ({ refreshIndex, resetChat, isRefreshing, notification, setNotif
  */
 const Footer = () => (
     <footer className="bg-gray-100 p-6 py-4 text-center text-sm text-gray-600 border-t border-gray-200">
-        <p>
-            Built by
+        <p className="flex items-center justify-center">
+            <span>Built by</span>
             <a href="https://multinear.com" target="_blank" className="text-indigo-600 hover:text-indigo-800 px-1">Multinear</a>
             2024 
             <span className="text-gray-400 px-2">|</span>
             <a href="https://github.com/multinear/demo-finance-rag-llama-index" 
                 target="_blank" 
-                className="text-indigo-600 hover:text-indigo-800">Demo Finance RAG</a>
+                className="text-indigo-600 hover:text-indigo-800 flex items-center">
+                <span className="border border-gray-500 rounded-full p-1 mr-1">
+                    <i data-lucide="github" className="w-3 h-3 text-gray-500"></i>
+                </span>
+                Repository
+            </a>
+            <span className="text-gray-400 px-2">|</span>
+            <a href="https://multinear.com/docs/" 
+                target="_blank" 
+                className="text-indigo-600 hover:text-indigo-800 flex items-center">
+                <span className="border border-gray-500 rounded-full p-1 mr-1">
+                    <i data-lucide="book-open" className="w-3 h-3 text-gray-500"></i>
+                </span>
+                Documentation
+            </a>
         </p>
     </footer>
 );
@@ -321,7 +335,7 @@ const Footer = () => (
  */
 ReactDOM.render(<Chat />, document.getElementById('root'));
 
-// Utility function to generate UUID
-function generateUUID() {
-    return crypto.randomUUID();
+// Utility function to generate ID
+function generateID() {
+    return window.crypto?.randomUUID?.() || Date.now().toString();
 }
