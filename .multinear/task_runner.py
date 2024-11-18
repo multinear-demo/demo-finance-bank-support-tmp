@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+import asyncio
 
 
 # Add parent directory to Python path so we can import engine
@@ -9,15 +10,14 @@ from engine.engine import RAGEngine
 # Singleton instance
 _rag_engine = None
 
-def get_rag_engine():
+def _get_rag_engine():
     global _rag_engine
     if _rag_engine is None:
         _rag_engine = RAGEngine()
         _rag_engine.refresh_index()
     return _rag_engine
 
-def run_single(input: str, *args, **kwargs) -> str:
-    engine = get_rag_engine()
-    import asyncio
+def run_task(input: str, *args, **kwargs) -> str:
+    engine = _get_rag_engine()
     response, _ = asyncio.run(engine.process_query([(input, True)]))
     return response
