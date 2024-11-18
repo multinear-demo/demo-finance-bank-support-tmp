@@ -1,3 +1,4 @@
+# pyright: reportMissingImports=false
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, ServiceContext
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.query_engine import SubQuestionQueryEngine
@@ -6,10 +7,9 @@ from llama_index.core.llms import ChatMessage
 import os
 from typing import Tuple, List
 from dotenv import load_dotenv
-import nest_asyncio
+from pathlib import Path
 
 load_dotenv()
-nest_asyncio.apply() # needed for llama_index
 
 
 class RAGEngine:
@@ -61,10 +61,19 @@ class RAGEngine:
         # )
 
         # https://docs.llamaindex.ai/en/stable/examples/usecases/10k_sub_question/
-        lyft_docs = SimpleDirectoryReader(input_files=["./data/10k/lyft_2021.pdf"]).load_data()
-        uber_docs = SimpleDirectoryReader(input_files=["./data/10k/uber_2021.pdf"]).load_data()
-        self.lyft_index = VectorStoreIndex.from_documents(lyft_docs)
-        self.uber_index = VectorStoreIndex.from_documents(uber_docs)
+        # lyft_docs = SimpleDirectoryReader(input_files=["./data/10k/lyft_2021.pdf"]).load_data()
+        # uber_docs = SimpleDirectoryReader(input_files=["./data/10k/uber_2021.pdf"]).load_data()
+        # self.lyft_index = VectorStoreIndex.from_documents(lyft_docs)
+        # self.uber_index = VectorStoreIndex.from_documents(uber_docs)
+
+        # bank_docs = SimpleDirectoryReader(input_files=["./data/bank_kiwi_faq.txt"]).load_data()
+
+        # Get the path relative to the current file
+        bank_docs = SimpleDirectoryReader(
+            input_files=[str(Path(__file__).parent.parent / "data" / "bank_kiwi_faq.txt")]
+        ).load_data()
+
+        self.bank_index = VectorStoreIndex.from_documents(bank_docs)
 
         # Create vector store index
         # self.index = VectorStoreIndex.from_documents(
@@ -72,29 +81,42 @@ class RAGEngine:
         #     service_context=self.service_context
         # )
 
-    def process_query(self, msg_list: List[Tuple[str, bool]]) -> Tuple[str, List[str]]:
+    async def process_query(self, msg_list: List[Tuple[str, bool]]) -> Tuple[str, List[str]]:
         """
         Process a user query using RAG with the provided chat history.
         """
         try:
-            lyft_engine = self.lyft_index.as_query_engine(similarity_top_k=3)
-            uber_engine = self.uber_index.as_query_engine(similarity_top_k=3)
+            # lyft_engine = self.lyft_index.as_query_engine(similarity_top_k=3)
+            # uber_engine = self.uber_index.as_query_engine(similarity_top_k=3)
+            # query_engine_tools = [
+            #     QueryEngineTool(
+            #         query_engine=lyft_engine,
+            #         metadata=ToolMetadata(
+            #             name="lyft_10k",
+            #             description=(
+            #                 "Provides information about Lyft financials for year 2021"
+            #             ),
+            #         ),
+            #     ),
+            #     QueryEngineTool(
+            #         query_engine=uber_engine,
+            #         metadata=ToolMetadata(
+            #             name="uber_10k",
+            #             description=(
+            #                 "Provides information about Uber financials for year 2021"
+            #             ),
+            #         ),
+            #     ),
+            # ]
+
+            bank_engine = self.bank_index.as_query_engine(similarity_top_k=3)
             query_engine_tools = [
                 QueryEngineTool(
-                    query_engine=lyft_engine,
+                    query_engine=bank_engine,
                     metadata=ToolMetadata(
-                        name="lyft_10k",
+                        name="bank_faq",
                         description=(
-                            "Provides information about Lyft financials for year 2021"
-                        ),
-                    ),
-                ),
-                QueryEngineTool(
-                    query_engine=uber_engine,
-                    metadata=ToolMetadata(
-                        name="uber_10k",
-                        description=(
-                            "Provides information about Uber financials for year 2021"
+                            "Provides information about Bank Kiwi FAQ"
                         ),
                     ),
                 ),
@@ -103,8 +125,7 @@ class RAGEngine:
             s_engine = SubQuestionQueryEngine.from_defaults(
                 query_engine_tools=query_engine_tools
             )
-            response = s_engine.query(msg_list[-1][0]) # last user message
-            # print(response.source_nodes)
+            response = await s_engine.aquery(msg_list[-1][0])  # last user message
             return str(response), []
         except Exception as e:
             print(e)

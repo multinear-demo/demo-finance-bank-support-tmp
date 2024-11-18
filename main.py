@@ -7,6 +7,9 @@ from typing import List
 from engine.engine import RAGEngine
 from session import SessionManager
 
+# import nest_asyncio
+# nest_asyncio.apply() # needed for llama_index
+
 
 app = FastAPI(title="RAG Chat Application")
 
@@ -47,7 +50,7 @@ async def chat(body: NewChatMessage):
     msg_list = session_manager.get_history(body.session_id)
 
     # Process the query using RAG engine with history
-    response, sources = rag_engine.process_query(msg_list)
+    response, sources = await rag_engine.process_query(msg_list)
     
     # Add AI's response
     ai_message = (response, False)
@@ -76,4 +79,4 @@ app.mount("/", StaticFiles(directory="./static", html=True), name="frontend")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True) 
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
