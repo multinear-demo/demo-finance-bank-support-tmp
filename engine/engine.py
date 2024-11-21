@@ -18,6 +18,9 @@ class RAGEngine:
     This class handles document ingestion, indexing, and query processing.
     """
 
+    temperature = 0.2
+    model = "gpt-4o"
+
     def __init__(self):
         """
         Initialize the RAG engine by setting up the document index.
@@ -26,13 +29,13 @@ class RAGEngine:
         if not os.getenv("OPENAI_API_KEY"):
             raise ValueError("OPENAI_API_KEY environment variable not set")
 
-        model = os.getenv("OPENAI_MODEL", "gpt-4o")
-        temperature = float(os.getenv("OPENAI_TEMPERATURE", 0.7))
+        self.model = os.getenv("OPENAI_MODEL", "gpt-4o")
+        self.temperature = float(os.getenv("OPENAI_TEMPERATURE", 0.2))
 
         # Initialize the LLM
         # self.llm = OpenAI(temperature=temperature, model=model)
         from llama_index.core import Settings
-        Settings.llm = OpenAI(temperature=0.2, model="gpt-4o")
+        Settings.llm = OpenAI(temperature=self.temperature, model=self.model)
         # print(Settings.llm._get_client())
         # logfire.instrument_openai(Settings.llm._client)
 
@@ -70,7 +73,7 @@ class RAGEngine:
 
         # Get the path relative to the current file
         bank_docs = SimpleDirectoryReader(
-            input_files=[str(Path(__file__).parent.parent / "data" / "bank_kiwi_faq.txt")]
+            input_files=[str(Path(__file__).parent.parent / "data" / "acme_bank_faq.txt")]
         ).load_data()
 
         self.bank_index = VectorStoreIndex.from_documents(bank_docs)
@@ -116,7 +119,7 @@ class RAGEngine:
                     metadata=ToolMetadata(
                         name="bank_faq",
                         description=(
-                            "Provides information about Bank Kiwi FAQ"
+                            "Provides information about Bank FAQ"
                         ),
                     ),
                 ),
