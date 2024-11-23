@@ -1,5 +1,5 @@
 # pyright: reportMissingImports=false
-from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, ServiceContext
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.query_engine import SubQuestionQueryEngine
 from llama_index.llms.openai import OpenAI
@@ -20,6 +20,7 @@ class RAGEngine:
 
     temperature = 0.2
     model = "gpt-4o"
+    bank_index: VectorStoreIndex = None
 
     def __init__(self):
         """
@@ -44,33 +45,11 @@ class RAGEngine:
             logfire.configure()
             logfire.instrument_openai(Settings.llm._get_client())
 
-        # # Create service context
-        # self.service_context = ServiceContext.from_defaults(llm=self.llm)
-
-        # # Create initial index
-        # self.refresh_index()
 
     def refresh_index(self):
         """
         (Re)build the document index by processing all documents in the data directory.
         """
-        # Load documents from the data directory
-        # documents = SimpleDirectoryReader('../data').load_data()
-
-        # # Create vector store index
-        # self.index = VectorStoreIndex.from_documents(
-        #     documents,
-        #     service_context=self.service_context
-        # )
-
-        # https://docs.llamaindex.ai/en/stable/examples/usecases/10k_sub_question/
-        # lyft_docs = SimpleDirectoryReader(input_files=["./data/10k/lyft_2021.pdf"]).load_data()
-        # uber_docs = SimpleDirectoryReader(input_files=["./data/10k/uber_2021.pdf"]).load_data()
-        # self.lyft_index = VectorStoreIndex.from_documents(lyft_docs)
-        # self.uber_index = VectorStoreIndex.from_documents(uber_docs)
-
-        # bank_docs = SimpleDirectoryReader(input_files=["./data/bank_kiwi_faq.txt"]).load_data()
-
         # Get the path relative to the current file
         bank_docs = SimpleDirectoryReader(
             input_files=[str(Path(__file__).parent.parent / "data" / "acme_bank_faq.txt")]
@@ -78,51 +57,27 @@ class RAGEngine:
 
         self.bank_index = VectorStoreIndex.from_documents(bank_docs)
 
-        # Create vector store index
-        # self.index = VectorStoreIndex.from_documents(
-        #     lyft_docs + uber_docs,
-        #     service_context=self.service_context
-        # )
-
     async def process_query(self, msg_list: List[Tuple[str, bool]]) -> Tuple[str, List[str]]:
         """
         Process a user query using RAG with the provided chat history.
         """
         try:
-            # lyft_engine = self.lyft_index.as_query_engine(similarity_top_k=3)
-            # uber_engine = self.uber_index.as_query_engine(similarity_top_k=3)
-            # query_engine_tools = [
-            #     QueryEngineTool(
-            #         query_engine=lyft_engine,
-            #         metadata=ToolMetadata(
-            #             name="lyft_10k",
-            #             description=(
-            #                 "Provides information about Lyft financials for year 2021"
-            #             ),
-            #         ),
-            #     ),
-            #     QueryEngineTool(
-            #         query_engine=uber_engine,
-            #         metadata=ToolMetadata(
-            #             name="uber_10k",
-            #             description=(
-            #                 "Provides information about Uber financials for year 2021"
-            #             ),
-            #         ),
-            #     ),
-            # ]
+            # Build index if not already loaded
+            if not self.bank_index:
+                self.refresh_index()
 
             bank_engine = self.bank_index.as_query_engine(similarity_top_k=3)
             query_engine_tools = [
                 QueryEngineTool(
                     query_engine=bank_engine,
                     metadata=ToolMetadata(
-                        name="bank_faq",
+                        name="acme_bank_faq",
                         description=(
-                            "Provides information about Bank FAQ"
+                            "Provides FAQ information about Acme Bank"
                         ),
                     ),
                 ),
+                # You can add more tools here
             ]
 
             s_engine = SubQuestionQueryEngine.from_defaults(
@@ -133,28 +88,3 @@ class RAGEngine:
         except Exception as e:
             print(e)
             return "Error processing request. Try again.", []
-
-        # ------------------------------------------------------------------------
-        messages = [
-            ChatMessage(role="system", content="You are a helpful AI assistant"),
-        ]
-        for msg in msg_list:
-            role = "user" if msg[1] else "assistant"
-            messages.append(ChatMessage(role=role, content=msg[0]))
-        resp = self.llm.chat(messages)        
-        return resp.message.content.strip(), []
-
-        # ------------------------------------------------------------------------
-        # Create query engine
-        query_engine = self.index.as_query_engine()
-
-        # Get response
-        response = query_engine.query(query)
-
-        # Extract source documents
-        sources = [
-            node.node.get_content()[:100] + "..."  # First 100 chars of each source
-            for node in response.source_nodes
-        ]
-
-        return str(response), sources 
