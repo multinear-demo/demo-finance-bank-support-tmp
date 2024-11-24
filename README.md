@@ -60,24 +60,36 @@ Ensure you have the following installed on your system:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/multinear-demo/demo-bank-customer-support-py.git
+   git clone https://github.com/multinear-demo/demo-bank-customer-support-py
    cd demo-bank-customer-support-py
    ```
 
 2. **Set Up the Python Environment**
 
-   It's recommended to use `pyenv` for managing Python versions.
+   Choose one of these methods:
 
+   **Option A: Using pyenv (recommended)**
    ```bash
-   # Install dependencies using pyenv
    pyenv install 3.9.13
    pyenv virtualenv 3.9.13 demo-bank
    pyenv activate demo-bank
    ```
 
+   **Option B: Using virtualenv (alternative)**
+   ```bash
+   python3 -m venv .venv
+
+   # On Unix/macOS
+   source .venv/bin/activate
+   # On Windows
+   .\.venv\Scripts\activate
+   ```
+
 3. **Install Python Dependencies**
 
    ```bash
+
+   # With pyenv or virtualenv
    pip install -r requirements.txt
    ```
 
