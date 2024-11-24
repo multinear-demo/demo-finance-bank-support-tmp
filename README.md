@@ -1,18 +1,6 @@
 # Demo Bank Customer Support
 
-This is a simple Retrieval-Augmented Generation (RAG) demo tailored for a bank's customer support bot.
-
-<!-- ## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Running the Application](#running-the-application)
-- [Architecture](#architecture)
-- [Experimentation Platform](#experimentation-platform)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license) -->
+This is a simple RAG demo for a bank's customer support bot.
 
 ## Introduction
 
@@ -51,7 +39,7 @@ This is a simple Retrieval-Augmented Generation (RAG) demo tailored for a bank's
 
 ### Option 1: Using `uv` (Recommended)
 
-[`uv`](https://github.com/astral-sh/uv) is an efficient way to run the application with minimal setup.
+[`uv`](https://github.com/astral-sh/uv) is the fastest way to run the application with minimal setup.
 
 ```bash
 # Setup Environment
@@ -63,7 +51,7 @@ uv run main.py
 
 ### Option 2: Using `pyenv`
 
-[`pyenv`](https://github.com/pyenv/pyenv) allows you to manage multiple Python versions and virtual environments seamlessly.
+[`pyenv`](https://github.com/pyenv/pyenv) allows you to manage multiple Python versions and virtual environments.
 
 ```bash
 # Setup Environment
@@ -191,23 +179,3 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 *Built by [Multinear](https://multinear.com). For more information, visit our [documentation](https://multinear.com/docs/).*
-
-
-# setup + run
-recommended: install uv
-uv sync
-uv run main.py
-
-alternative: pyenv
-pyenv install
-pyenv activate
-
-less recommended: whatever python is installed
-
-then:
-pip install -r requirements.txt
-python main.py
-
----
-
-uv run --with jupyter jupyter lab notebook.ipynb
