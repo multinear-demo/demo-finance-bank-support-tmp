@@ -60,8 +60,8 @@ Ensure you have the following installed on your system:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/multinear/demo-bank-customer-support.git
-   cd demo-bank-customer-support
+   git clone https://github.com/multinear-demo/demo-bank-customer-support-py.git
+   cd demo-bank-customer-support-py
    ```
 
 2. **Set Up the Python Environment**
