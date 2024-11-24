@@ -9,4 +9,5 @@ dependencies = [
     "llama-index>=0.11.21",
     "python-dotenv>=1.0.1",
     "uvicorn>=0.32.0",
+    "multinear @ git+https://github.com/multinear/multinear-tmp.git",
 ]
