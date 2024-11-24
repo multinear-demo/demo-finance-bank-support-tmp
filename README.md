@@ -16,11 +16,11 @@ This is a simple Retrieval-Augmented Generation (RAG) demo tailored for a bank's
 
 ## Introduction
 
-<div style="display: flex; align-items: flex-start; gap: 20px;">
-  <div>
-  This project serves as a proof-of-concept for integrating RAG into a banking environment to enhance customer support operations. By leveraging GenAI, the system provides intelligent and contextually relevant responses to customer inquiries, ensuring a seamless and efficient support experience.
+<img align="right" width="400" src="static/screenshot.png">
 
-  This project is also a demonstration of a platform that facilitates the development of GenAI-based applications. It allows practitioners to run various experimental configurations, measure their outcomes, and iteratively improve the system's performance while maintaining reliability and security.
+- This project serves as a proof-of-concept for integrating RAG into a banking environment to enhance customer support operations. By leveraging GenAI, the system provides intelligent and contextually relevant responses to customer inquiries, ensuring a seamless and efficient support experience.
+
+- This project is also a demonstration of a platform that facilitates the development of GenAI-based applications. It allows practitioners to run various experimental configurations, measure their outcomes, and iteratively improve the system's performance while maintaining reliability and security.
 
 ### Features
 
@@ -30,11 +30,6 @@ This is a simple Retrieval-Augmented Generation (RAG) demo tailored for a bank's
 - **Result Tracking and Comparison:** Save metadata and results of each experiment batch, enabling detailed comparisons and analysis.
 - **Security and Guardrails:** Implement tests for malicious inputs and enforce security measures to safeguard against potential threats.
 - **User-Friendly Interface:** A frontend interface for interacting with the customer support bot and managing experiments.
-
-  </div>
-
-  <img src="static/screenshot.png" alt="Demo Bank Customer Support UI" width="400" />
-</div>
 
 
 ## Installation
