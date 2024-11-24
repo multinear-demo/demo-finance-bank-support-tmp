@@ -1,7 +1,7 @@
 [project]
-name = "demo-finance-customer-support"
+name = "demo-bank-customer-support"
 version = "0.1.0"
-description = "Demo Finance Customer Support"
+description = "Demo Bank Customer Support"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
