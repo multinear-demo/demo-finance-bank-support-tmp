@@ -2,9 +2,9 @@
 
 This is a simple RAG demo for a bank's customer support bot, for use with the [Multinear](https://multinear.com) platform.
 
-## Introduction
-
 <img align="right" width="300" src="static/screenshot.png">
+
+## Introduction
 
 This project shows how simple it is to build a proof-of-concept using RAG for a customer support bot answering user questions on FAQ data, with platforms like [llama_index](https://github.com/jerryjliu/llama_index). 
 
