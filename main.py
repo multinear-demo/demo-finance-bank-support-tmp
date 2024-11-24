@@ -4,8 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List
 
-from .engine import RAGEngine
-from .session import SessionManager
+from engine import RAGEngine
+from session import SessionManager
 
 # import nest_asyncio
 # nest_asyncio.apply() # needed for llama_index
