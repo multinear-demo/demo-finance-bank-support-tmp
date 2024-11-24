@@ -1,8 +1,8 @@
 # Demo Bank Customer Support
 
-Welcome to the **Demo Bank Customer Support** project — a simple Retrieval-Augmented Generation (RAG) demo tailored for a bank's customer support bot. This project showcases a platform designed to develop Generative AI (GenAI) applications by facilitating the execution and evaluation of diverse experiments. It emphasizes building reliable systems through iterative experimentation, ensuring robust performance and adherence to security standards.
+This is a simple Retrieval-Augmented Generation (RAG) demo tailored for a bank's customer support bot.
 
-## Table of Contents
+<!-- ## Table of Contents
 
 - [Introduction](#introduction)
 - [Features](#features)
@@ -12,19 +12,17 @@ Welcome to the **Demo Bank Customer Support** project — a simple Retrieval-Aug
 - [Experimentation Platform](#experimentation-platform)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
-- [License](#license)
+- [License](#license) -->
 
 ## Introduction
 
-This project serves as a proof-of-concept for integrating RAG into a banking environment to enhance customer support operations. By leveraging GenAI, the system provides intelligent and contextually relevant responses to customer inquiries, ensuring a seamless and efficient support experience.
+<div style="display: flex; align-items: flex-start; gap: 20px;">
+  <div>
+  This project serves as a proof-of-concept for integrating RAG into a banking environment to enhance customer support operations. By leveraging GenAI, the system provides intelligent and contextually relevant responses to customer inquiries, ensuring a seamless and efficient support experience.
 
-This project is also a demonstration of a platform that facilitates the development of GenAI-based applications. It allows practitioners to run various experimental configurations, measure their outcomes, and iteratively improve the system's performance while maintaining reliability and security.
+  This project is also a demonstration of a platform that facilitates the development of GenAI-based applications. It allows practitioners to run various experimental configurations, measure their outcomes, and iteratively improve the system's performance while maintaining reliability and security.
 
-<p align="center">
-  <img src="static/screenshot.png" alt="Demo Bank Customer Support UI" width="400" />
-</p>
-
-## Features
+### Features
 
 - **Retrieval-Augmented Generation (RAG):** Combines traditional information retrieval methods with generative AI to provide accurate and context-aware responses.
 - **Experiment Management:** Run multiple variations of the RAG engine, each with different models, prompts, or approaches.
@@ -32,6 +30,12 @@ This project is also a demonstration of a platform that facilitates the developm
 - **Result Tracking and Comparison:** Save metadata and results of each experiment batch, enabling detailed comparisons and analysis.
 - **Security and Guardrails:** Implement tests for malicious inputs and enforce security measures to safeguard against potential threats.
 - **User-Friendly Interface:** A frontend interface for interacting with the customer support bot and managing experiments.
+
+  </div>
+
+  <img src="static/screenshot.png" alt="Demo Bank Customer Support UI" width="400" />
+</div>
+
 
 ## Installation
 
