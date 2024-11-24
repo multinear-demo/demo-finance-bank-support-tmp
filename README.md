@@ -57,7 +57,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-### Option 3: Using Python's Built-in `venv`
+### Option 3: Using Python's built-in `venv`
 
 ```bash
 # Setup Environment
