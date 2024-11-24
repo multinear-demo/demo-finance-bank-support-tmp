@@ -6,7 +6,7 @@ This is a simple RAG demo for a bank's customer support bot, for use with the [M
 
 ## Introduction
 
-This project shows how simple it is to build a proof-of-concept using RAG for a customer support bot answering user questions on FAQ data, with platforms like [llama_index](https://github.com/jerryjliu/llama_index). 
+This project shows how simple it is to build a proof-of-concept using RAG for a customer support bot answering user questions on FAQ data, with platforms like [llama_index](https://github.com/run-llama/llama_index). 
 
 The real challenge is to ensure that this bot is reliable - always giving the right answer, not hallucinating, and knowing how to deal with ambiguous or off-topic questions. GenAI is a powerful technology, but it's also **unpredictable by design**, and the only way to make it reliable is to build comprehensive test coverage and guardrails. 
 

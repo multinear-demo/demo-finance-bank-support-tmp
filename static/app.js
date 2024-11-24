@@ -183,7 +183,7 @@ const Header = () => (
             <div className="flex items-center text-sm space-x-2 mt-2 sm:mt-0 justify-end pl-8">
                 <span>
                     Powered by
-                    <a href="https://llamaindex.ai" target="_blank" className="underline pl-1">
+                    <a href="https://github.com/run-llama/llama_index" target="_blank" className="underline pl-1">
                         llama_index
                     </a>
                 </span>
