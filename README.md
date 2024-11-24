@@ -68,8 +68,10 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # Start the Application
-python main.py
+python3 main.py
 ```
+
+Open http://localhost:8080 to see the application.
 
 ---
 
