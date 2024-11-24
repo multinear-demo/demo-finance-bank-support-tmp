@@ -135,5 +135,5 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 <p align="center">
-  *Built by [Multinear](https://multinear.com).*
+    <i>Built by <a href="https://multinear.com">Multinear</a>.</i>
 </p>
