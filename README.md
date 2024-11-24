@@ -134,4 +134,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-*Built by [Multinear](https://multinear.com). For more information, visit our [documentation](https://multinear.com/docs/).*
+*Built by [Multinear](https://multinear.com).
