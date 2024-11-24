@@ -34,21 +34,13 @@ That's exactly what the Multinear platform is for. Multinear allows developers t
 
    [`uv`](https://github.com/astral-sh/uv) is the fastest way to run the application with minimal setup.
 
-    ```bash
-    # Setup Environment
-    uv sync
+```bash
+# Setup Environment
+uv sync
 
-    # Start the Application
-    uv run main.py
-    ```
-
-    ```bash
-    # Using uv
-    uv run multinear web_dev
-
-    # Using pyenv / virtualenv
-    multinear web_dev
-    ```
+# Start the Application
+uv run main.py
+```
 
 ### Option 2: Using `pyenv`
 
