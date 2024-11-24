@@ -1,20 +1,15 @@
 # Demo Bank Customer Support
 
-Welcome to the **Demo Bank Customer Support** project—a comprehensive Retrieval-Augmented Generation (RAG) demo tailored for a bank's customer support bot. This project showcases a platform designed to develop Generative AI (GenAI) applications by facilitating the execution and evaluation of diverse experiments. It emphasizes building reliable systems through iterative experimentation, ensuring robust performance and adherence to security standards.
+Welcome to the **Demo Bank Customer Support** project — a simple Retrieval-Augmented Generation (RAG) demo tailored for a bank's customer support bot. This project showcases a platform designed to develop Generative AI (GenAI) applications by facilitating the execution and evaluation of diverse experiments. It emphasizes building reliable systems through iterative experimentation, ensuring robust performance and adherence to security standards.
 
 ## Table of Contents
 
 - [Introduction](#introduction)
 - [Features](#features)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
 - [Architecture](#architecture)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Running the Application](#running-the-application)
 - [Experimentation Platform](#experimentation-platform)
-  - [Running Experiments](#running-experiments)
-  - [Evaluating Results](#evaluating-results)
-- [Testing and Security](#testing-and-security)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
@@ -25,6 +20,10 @@ This project serves as a proof-of-concept for integrating RAG into a banking env
 
 This project is also a demonstration of a platform that facilitates the development of GenAI-based applications. It allows practitioners to run various experimental configurations, measure their outcomes, and iteratively improve the system's performance while maintaining reliability and security.
 
+<div style="text-align: center">
+  <img src="static/screenshot.png" alt="Demo Bank Customer Support UI" width="600" />
+</div>
+
 ## Features
 
 - **Retrieval-Augmented Generation (RAG):** Combines traditional information retrieval methods with generative AI to provide accurate and context-aware responses.
@@ -34,83 +33,133 @@ This project is also a demonstration of a platform that facilitates the developm
 - **Security and Guardrails:** Implement tests for malicious inputs and enforce security measures to safeguard against potential threats.
 - **User-Friendly Interface:** A frontend interface for interacting with the customer support bot and managing experiments.
 
-## Architecture
-
-The system is composed of several key components:
-
-1. **RAG Engine (`engine/engine.py`):** Handles document ingestion, indexing, and query processing using the `llama_index` library and OpenAI's GPT models.
-2. **API Server (`main.py`):** Built with FastAPI, it serves as the backend, exposing endpoints for chat interactions, index refreshing, and session management.
-3. **Frontend (`static/index.html` & `static/app.js`):** A React-based user interface that allows users to interact with the customer support bot and manage chat sessions.
-4. **Experiment Runner (`.multinear/task_runner.py`):** Facilitates running multiple experimental tasks, managing the execution of different RAG engine configurations.
-5. **Configuration and Data (`.multinear/config.yaml` & `data/acme_bank_faq.txt`):** Defines experimental tasks and provides the dataset for the RAG engine.
-
 ## Getting Started
-
-### Prerequisites
-
-Ensure you have the following installed on your system:
-
-- **Python 3.9 or higher**
-- **Node.js (for frontend development)**
-- **Git**
-- **pip**
 
 ### Installation
 
+Choose one of the following methods to set up the project environment and install dependencies. Each method varies in complexity and management features.
+
 1. **Clone the Repository**
 
-   ```bash
-   git clone https://github.com/multinear-demo/demo-bank-customer-support-py
-   cd demo-bank-customer-support-py
-   ```
+    ```bash
+    git clone https://github.com/multinear-demo/demo-finance-bank-support-py
+    cd demo-bank-customer-support-py
+    ```
 
-2. **Set Up the Python Environment**
-
-   Choose one of these methods:
-
-   **Option A: Using pyenv (recommended)**
-   ```bash
-   pyenv install 3.9.13
-   pyenv virtualenv 3.9.13 demo-bank
-   pyenv activate demo-bank
-   ```
-
-   **Option B: Using virtualenv (alternative)**
-   ```bash
-   python3 -m venv .venv
-
-   # On Unix/macOS
-   source .venv/bin/activate
-   # On Windows
-   .\.venv\Scripts\activate
-   ```
-
-3. **Install Python Dependencies**
-
-   ```bash
-
-   # With pyenv or virtualenv
-   pip install -r requirements.txt
-   ```
-
-4. **Configure Environment Variables**
+2. **Configure Environment Variables**
 
    Create a `.env` file in the root directory and add your OpenAI API key:
 
-   ```env
-   OPENAI_API_KEY=your_openai_api_key
-   OPENAI_MODEL=gpt-4o
-   OPENAI_TEMPERATURE=0.2
-   TRACE_LOGFIRE=false
-   ```
+    ```bash
+    echo "OPENAI_API_KEY=your-api-key-here" > .env
+    ```
 
-### Running the Application
+### Option 1: Using `uv` (Recommended)
 
-1. **Start the Backend Server**
+[`uv`](https://github.com/astral-sh/uv) is an efficient way to run the application with minimal setup.
 
-   ```bash
-   uvicorn main:app --reload
-   ```
+#### Setup
+
+    Navigate to the project directory and run:
+
+    ```bash
+    uv sync
+    ```
+
+#### Install Dependencies and Run
+
+    Start the Application:
+
+    ```bash
+    uv run main.py
+    ```
+
+### Option 2: Using `pyenv` (Alternative)
+
+`pyenv` allows you to manage multiple Python versions and virtual environments seamlessly.
+
+#### Setup
+
+1. **Install `pyenv`:**
+
+    Follow the official [pyenv installation guide](https://github.com/pyenv/pyenv#installation) suitable for your operating system.
+
+2. **Install the Required Python Version:**
+
+    ```bash
+    pyenv install 3.9
+    ```
+
+3. **Create and Activate a Virtual Environment:**
+
+    ```bash
+    pyenv virtualenv 3.9 demo-bank
+    pyenv activate demo-bank
+    ```
+
+#### Install Dependencies and Run
+
+1. **Install Python Dependencies:**
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2. **Start the Application:**
+
+    ```bash
+    python main.py
+    ```
+
+### Option 3: Using Python's Built-in `venv` (Less Recommended)
+
+Leverage Python's standard `venv` module to create a virtual environment.
+
+#### Setup
+
+1. **Create a Virtual Environment:**
+
+    ```bash
+    python3 -m venv .venv
+    ```
+
+2. **Activate the Virtual Environment:**
+
+    - **On Unix/macOS:**
+
+        ```bash
+        source .venv/bin/activate
+        ```
+
+    - **On Windows:**
+
+        ```bash
+        .\.venv\Scripts\activate
+        ```
+
+#### Install Dependencies and Run
+
+1. **Install Python Dependencies:**
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2. **Start the Application:**
+
+    ```bash
+    python main.py
+    ```
+
+---
+
+### Jupyter Notebook
+
+Open a new terminal window and run:
+
+```bash
+uv run --with jupyter jupyter lab notebook.ipynb
+```
 
 2. **Launch the Frontend**
 
@@ -121,6 +170,16 @@ Ensure you have the following installed on your system:
    ```
 
    Alternatively, you can use the provided `app.js` for a standalone frontend.
+
+## Architecture
+
+The system is composed of several key components:
+
+1. **RAG Engine (`engine/engine.py`):** Handles document ingestion, indexing, and query processing using the `llama_index` library and OpenAI's GPT models.
+2. **API Server (`main.py`):** Built with FastAPI, it serves as the backend, exposing endpoints for chat interactions, index refreshing, and session management.
+3. **Frontend (`static/index.html` & `static/app.js`):** A React-based user interface that allows users to interact with the customer support bot and manage chat sessions.
+4. **Experiment Runner (`.multinear/task_runner.py`):** Facilitates running multiple experimental tasks, managing the execution of different RAG engine configurations.
+5. **Configuration and Data (`.multinear/config.yaml` & `data/acme_bank_faq.txt`):** Defines experimental tasks and provides the dataset for the RAG engine.
 
 ## Experimentation Platform
 
