@@ -20,9 +20,9 @@ This project serves as a proof-of-concept for integrating RAG into a banking env
 
 This project is also a demonstration of a platform that facilitates the development of GenAI-based applications. It allows practitioners to run various experimental configurations, measure their outcomes, and iteratively improve the system's performance while maintaining reliability and security.
 
-<div style="text-align: center">
-  <img src="static/screenshot.png" alt="Demo Bank Customer Support UI" width="600" />
-</div>
+<p align="center">
+  <img src="static/screenshot.png" alt="Demo Bank Customer Support UI" width="400" />
+</p>
 
 ## Features
 
@@ -33,17 +33,13 @@ This project is also a demonstration of a platform that facilitates the developm
 - **Security and Guardrails:** Implement tests for malicious inputs and enforce security measures to safeguard against potential threats.
 - **User-Friendly Interface:** A frontend interface for interacting with the customer support bot and managing experiments.
 
-## Getting Started
-
-### Installation
-
-Choose one of the following methods to set up the project environment and install dependencies. Each method varies in complexity and management features.
+## Installation
 
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/multinear-demo/demo-finance-bank-support-py
-    cd demo-bank-customer-support-py
+    git clone https://github.com/multinear-demo/demo-bank-support-li-py
+    cd demo-bank-support-li-py
     ```
 
 2. **Configure Environment Variables**
@@ -58,118 +54,69 @@ Choose one of the following methods to set up the project environment and instal
 
 [`uv`](https://github.com/astral-sh/uv) is an efficient way to run the application with minimal setup.
 
-#### Setup
+#### Setup Environment
 
-    Navigate to the project directory and run:
+```bash
+uv sync
+```
 
-    ```bash
-    uv sync
-    ```
+#### Start the Application
 
-#### Install Dependencies and Run
-
-    Start the Application:
-
-    ```bash
-    uv run main.py
-    ```
+```bash
+uv run main.py
+```
 
 ### Option 2: Using `pyenv` (Alternative)
 
-`pyenv` allows you to manage multiple Python versions and virtual environments seamlessly.
+[`pyenv`](https://github.com/pyenv/pyenv) allows you to manage multiple Python versions and virtual environments seamlessly.
 
-#### Setup
+#### Setup Environment
 
-1. **Install `pyenv`:**
+```bash
+pyenv install 3.9
+pyenv virtualenv 3.9 demo-bank
+pyenv activate demo-bank
+pip install -r requirements.txt
+```
 
-    Follow the official [pyenv installation guide](https://github.com/pyenv/pyenv#installation) suitable for your operating system.
+#### Start the Application
 
-2. **Install the Required Python Version:**
+```bash
+python main.py
+```
 
-    ```bash
-    pyenv install 3.9
-    ```
+### Option 3: Using Python's Built-in `venv` (Another alternative)
 
-3. **Create and Activate a Virtual Environment:**
+#### Setup Environment
 
-    ```bash
-    pyenv virtualenv 3.9 demo-bank
-    pyenv activate demo-bank
-    ```
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+# On Windows:
+# .\.venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-#### Install Dependencies and Run
+#### Start the Application
 
-1. **Install Python Dependencies:**
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-2. **Start the Application:**
-
-    ```bash
-    python main.py
-    ```
-
-### Option 3: Using Python's Built-in `venv` (Less Recommended)
-
-Leverage Python's standard `venv` module to create a virtual environment.
-
-#### Setup
-
-1. **Create a Virtual Environment:**
-
-    ```bash
-    python3 -m venv .venv
-    ```
-
-2. **Activate the Virtual Environment:**
-
-    - **On Unix/macOS:**
-
-        ```bash
-        source .venv/bin/activate
-        ```
-
-    - **On Windows:**
-
-        ```bash
-        .\.venv\Scripts\activate
-        ```
-
-#### Install Dependencies and Run
-
-1. **Install Python Dependencies:**
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-2. **Start the Application:**
-
-    ```bash
-    python main.py
-    ```
+```bash
+python main.py
+```
 
 ---
 
 ### Jupyter Notebook
 
-Open a new terminal window and run:
-
 ```bash
 uv run --with jupyter jupyter lab notebook.ipynb
 ```
 
-2. **Launch the Frontend**
+or (with `pyenv` / `virtualenv`)
 
-   Open a new terminal window and run:
+```bash
+jupyter lab notebook.ipynb
+```
 
-   ```bash
-   uv run --with jupyter jupyter lab notebook.ipynb
-   ```
-
-   Alternatively, you can use the provided `app.js` for a standalone frontend.
 
 ## Architecture
 
@@ -193,11 +140,11 @@ The platform is designed to facilitate the development and evaluation of GenAI a
 
 2. **Execute Experiments**
 
-   Use the task runner to execute various configurations of the RAG engine. Each run can vary models, prompts, datasets, or other parameters influencing the system's behavior.
+Use the task runner to execute various configurations of the RAG engine. Each run can vary models, prompts, datasets, or other parameters influencing the system's behavior.
 
-   ```bash
-   multinear run
-   ```
+```bash
+multinear run
+```
 
 3. **Monitor Execution**
 
