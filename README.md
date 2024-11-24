@@ -46,43 +46,43 @@ uv run main.py
 
    [`pyenv`](https://github.com/pyenv/pyenv) allows you to manage multiple Python versions and virtual environments.
 
-    ```bash
-    # Setup Environment
-    pyenv install 3.9
-    pyenv virtualenv 3.9 demo-bank
-    pyenv local demo-bank
-    pip install -r requirements.txt
+```bash
+# Setup Environment
+pyenv install 3.9
+pyenv virtualenv 3.9 demo-bank
+pyenv local demo-bank
+pip install -r requirements.txt
 
-    # Start the Application
-    python main.py
-    ```
+# Start the Application
+python main.py
+```
 
 ### Option 3: Using Python's Built-in `venv`
 
-    ```bash
-    # Setup Environment
-    python3 -m venv .venv
-    source .venv/bin/activate
-    # On Windows:
-    # .\.venv\Scripts\activate
-    pip install -r requirements.txt
+```bash
+# Setup Environment
+python3 -m venv .venv
+source .venv/bin/activate
+# On Windows:
+# .\.venv\Scripts\activate
+pip install -r requirements.txt
 
-    # Start the Application
-    python main.py
-    ```
+# Start the Application
+python main.py
+```
 
 ---
 
 ### Jupyter Notebook
 
-    ```bash
-    # Using uv
-    uv run --with jupyter jupyter lab notebook.ipynb
+```bash
+# Using uv
+uv run --with jupyter jupyter lab notebook.ipynb
 
-    # Using pyenv / virtualenv
-    pip install jupyter
-    jupyter lab notebook.ipynb
-    ```
+# Using pyenv / virtualenv
+pip install jupyter
+jupyter lab notebook.ipynb
+```
 
 ## Architecture
 
