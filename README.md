@@ -97,12 +97,12 @@ jupyter lab notebook.ipynb
 
    Key system components:
 
-1. **RAG Engine (`engine.py`):** Handles document ingestion, indexing, and query processing using the `llama_index` library and OpenAI model.
-2. **API Server (`main.py`):** Backend built with `FastAPI`, with endpoints for chat, reindexing, and session management.
-3. **Frontend (`static/index.html` & `static/app.js`):** A `React`-based UI.
-4. **Data** (`data/acme_bank_faq.txt`):** Dataset for the RAG engine.
-5. **Experiment Runner (`.multinear/task_runner.py`):** Entry point for `Multinear` platform.
-6. **Configuration (`.multinear/config.yaml`):** Defines evaluation tasks.
+1. [RAG Engine](engine.py) for document ingestion, indexing, and query processing using the `llama_index` library and `OpenAI` model.
+2. [API Server](main.py) with `FastAPI` endpoints for chat, reindexing, and session management.
+3. [HTML](static/index.html) & [React JS](static/app.js) frontend.
+4. [Dataset](data/acme_bank_faq.txt) for the RAG engine.
+5. [Experiment Runner](.multinear/task_runner.py) entry point for `Multinear` platform.
+6. [Configuration](.multinear/config.yaml) for evaluation tasks.
 
 ## Experimentation Platform
 
