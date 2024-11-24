@@ -5,8 +5,7 @@ import asyncio
 
 # Add parent directory to Python path so we can import engine
 sys.path.append(str(Path(__file__).parent.parent))
-# print(str(Path(__file__).parent.parent))
-from engine.engine import RAGEngine
+from engine import RAGEngine
 
 # Singleton instance
 _rag_engine = None

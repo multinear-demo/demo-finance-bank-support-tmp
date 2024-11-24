@@ -53,52 +53,41 @@ This is a simple Retrieval-Augmented Generation (RAG) demo tailored for a bank's
 
 [`uv`](https://github.com/astral-sh/uv) is an efficient way to run the application with minimal setup.
 
-#### Setup Environment
-
 ```bash
+# Setup Environment
 uv sync
-```
 
-#### Start the Application
-
-```bash
+# Start the Application
 uv run main.py
 ```
 
-### Option 2: Using `pyenv` (Alternative)
+### Option 2: Using `pyenv`
 
 [`pyenv`](https://github.com/pyenv/pyenv) allows you to manage multiple Python versions and virtual environments seamlessly.
 
-#### Setup Environment
-
 ```bash
+# Setup Environment
 pyenv install 3.9
 pyenv virtualenv 3.9 demo-bank
-pyenv activate demo-bank
+pyenv local demo-bank
 pip install -r requirements.txt
-```
 
-#### Start the Application
-
-```bash
+# Start the Application
 python main.py
 ```
 
-### Option 3: Using Python's Built-in `venv` (Another alternative)
 
-#### Setup Environment
+### Option 3: Using Python's Built-in `venv`
 
 ```bash
+# Setup Environment
 python3 -m venv .venv
 source .venv/bin/activate
 # On Windows:
 # .\.venv\Scripts\activate
 pip install -r requirements.txt
-```
 
-#### Start the Application
-
-```bash
+# Start the Application
 python main.py
 ```
 
@@ -107,21 +96,19 @@ python main.py
 ### Jupyter Notebook
 
 ```bash
+# Using uv
 uv run --with jupyter jupyter lab notebook.ipynb
-```
 
-or (with `pyenv` / `virtualenv`)
-
-```bash
+# Using pyenv / virtualenv
+pip install jupyter
 jupyter lab notebook.ipynb
 ```
-
 
 ## Architecture
 
 The system is composed of several key components:
 
-1. **RAG Engine (`engine/engine.py`):** Handles document ingestion, indexing, and query processing using the `llama_index` library and OpenAI's GPT models.
+1. **RAG Engine (`engine.py`):** Handles document ingestion, indexing, and query processing using the `llama_index` library and OpenAI's GPT models.
 2. **API Server (`main.py`):** Built with FastAPI, it serves as the backend, exposing endpoints for chat interactions, index refreshing, and session management.
 3. **Frontend (`static/index.html` & `static/app.js`):** A React-based user interface that allows users to interact with the customer support bot and manage chat sessions.
 4. **Experiment Runner (`.multinear/task_runner.py`):** Facilitates running multiple experimental tasks, managing the execution of different RAG engine configurations.
