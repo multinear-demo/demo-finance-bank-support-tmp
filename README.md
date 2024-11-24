@@ -42,6 +42,14 @@ That's exactly what the Multinear platform is for. Multinear allows developers t
     uv run main.py
     ```
 
+    ```bash
+    # Using uv
+    uv run multinear web_dev
+
+    # Using pyenv / virtualenv
+    multinear web_dev
+    ```
+
 ### Option 2: Using `pyenv`
 
    [`pyenv`](https://github.com/pyenv/pyenv) allows you to manage multiple Python versions and virtual environments.
