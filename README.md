@@ -73,6 +73,13 @@ python3 main.py
 
 Open http://localhost:8080 to see the application.
 
+Try asking different questions to see how the bot handles them:
+
+- Hi there!
+- How do I reset my password?
+- What's the current exchange rate?
+- Where is the closest coffee shop?
+
 ---
 
 ### Jupyter Notebook
