@@ -1,23 +1,12 @@
 # Demo Bank Customer Support
 
-This is a simple RAG demo for a bank's customer support bot.
+This is a simple RAG demo for a bank's customer support bot, for use with the [Multinear](https://multinear.com) platform.
 
 ## Introduction
 
 <img align="right" width="400" src="static/screenshot.png">
 
-- This project serves as a proof-of-concept for integrating RAG into a banking environment to enhance customer support operations. By leveraging GenAI, the system provides intelligent and contextually relevant responses to customer inquiries, ensuring a seamless and efficient support experience.
-
-- This project is also a demonstration of a platform that facilitates the development of GenAI-based applications. It allows practitioners to run various experimental configurations, measure their outcomes, and iteratively improve the system's performance while maintaining reliability and security.
-
-### Features
-
-- **Retrieval-Augmented Generation (RAG):** Combines traditional information retrieval methods with generative AI to provide accurate and context-aware responses.
-- **Experiment Management:** Run multiple variations of the RAG engine, each with different models, prompts, or approaches.
-- **Comprehensive Evaluations:** Supports various evaluation methods, including automated metrics, LLM-as-a-judge, and human evaluations.
-- **Result Tracking and Comparison:** Save metadata and results of each experiment batch, enabling detailed comparisons and analysis.
-- **Security and Guardrails:** Implement tests for malicious inputs and enforce security measures to safeguard against potential threats.
-- **User-Friendly Interface:** A frontend interface for interacting with the customer support bot and managing experiments.
+This project shows how simple it is to build a proof-of-concept using RAG for a customer support bot answering user questions on FAQ data, with platforms like [llama_index](https://github.com/jerryjliu/llama_index). The real challenge is to ensure that this bot is reliable - always giving the right answer, not hallucinating, and knowing how to deal with ambiguous or off-topic questions. GenAI is a powerful technology, but it's also **unpredictable by design**, and the only way to make it reliable is to build comprehensive test coverage and guardrails. That's exactly what the Multinear platform is for. Multinear allows developers to define evaluations in a simple yet powerful way and iteratively develop their GenAI applications, ensuring reliability and security.
 
 
 ## Installation
@@ -94,13 +83,13 @@ jupyter lab notebook.ipynb
 
 ## Architecture
 
-The system is composed of several key components:
+Key system components:
 
-1. **RAG Engine (`engine.py`):** Handles document ingestion, indexing, and query processing using the `llama_index` library and OpenAI's GPT models.
-2. **API Server (`main.py`):** Built with FastAPI, it serves as the backend, exposing endpoints for chat interactions, index refreshing, and session management.
-3. **Frontend (`static/index.html` & `static/app.js`):** A React-based user interface that allows users to interact with the customer support bot and manage chat sessions.
-4. **Experiment Runner (`.multinear/task_runner.py`):** Facilitates running multiple experimental tasks, managing the execution of different RAG engine configurations.
-5. **Configuration and Data (`.multinear/config.yaml` & `data/acme_bank_faq.txt`):** Defines experimental tasks and provides the dataset for the RAG engine.
+1. **RAG Engine (`engine.py`):** Handles document ingestion, indexing, and query processing using the `llama_index` library and OpenAI model.
+2. **API Server (`main.py`):** Backend built with `FastAPI`, with endpoints for chat,reindexing, and session management.
+3. **Frontend (`static/index.html` & `static/app.js`):** A `React`-based UI.
+4. **Data** (`data/acme_bank_faq.txt`):** Dataset for the RAG engine.
+5. **Experiment Runner (`.multinear/task_runner.py`):** Entry point for `Multinear` platform. 6. **Configuration (`.multinear/config.yaml`):** Defines evaluation tasks.
 
 ## Experimentation Platform
 
@@ -110,67 +99,17 @@ The platform is designed to facilitate the development and evaluation of GenAI a
 
 1. **Define Tasks**
 
-   Configure your experimental tasks in `.multinear/config.yaml`. Each task represents a specific input scenario for the customer support bot.
+   Configure your evaluation tasks in `.multinear/config.yaml`. Each task represents a specific input scenario for the customer support bot, and defines how to evaluate the output.
 
 2. **Execute Experiments**
 
-Use the task runner to execute various configurations of the RAG engine. Each run can vary models, prompts, datasets, or other parameters influencing the system's behavior.
+Run `Multinear` platform.
 
 ```bash
 multinear run
 ```
 
-3. **Monitor Execution**
-
-   The platform will display real-time updates on the status of each task, including successes and failures.
-
-### Evaluating Results
-
-1. **Review Batch Runs**
-
-   After experiment execution, access the results to compare different runs. Evaluate metrics such as response accuracy, relevance, and compliance with security standards.
-
-2. **Analyze Metadata**
-
-   Examine metadata associated with each run to understand the conditions and configurations that led to specific outcomes.
-
-3. **Identify Improvements and Regressions**
-
-   Determine which configurations enhanced performance and identify any regressions in previously working cases.
-
-4. **Iterate for Reliability**
-
-   Use insights from evaluations to iterate on your approach, ensuring the end-to-end system remains reliable despite the inherent unpredictability of GenAI models.
-
-## Testing and Security
-
-Building reliable GenAI systems involves rigorous testing to ensure robustness against various challenges.
-
-- **Malicious Input Testing:** Validate the system's resilience against attempts to exploit vulnerabilities through crafted inputs.
-- **Security Guardrails:** Implement measures to protect sensitive data and maintain compliance with regulatory standards.
-- **Continuous Monitoring:** Regularly assess system performance and security postures to preemptively address potential issues.
-
-## Project Structure
-
-
-- **engine/**: Contains the RAG engine implementation.
-- **static/**: Hosts the frontend HTML and JavaScript files.
-- **data/**: Includes datasets used by the RAG engine for document retrieval.
-- **.multinear/**: Configuration and logs for the experimentation platform.
-- **main.py**: The FastAPI backend server.
-- **requirements.txt & pyproject.toml**: Define project dependencies.
-- **notebook.ipynb**: Jupyter notebook for interactive experimentation and testing.
-
-## Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Make your changes with clear commit messages.
-4. Submit a pull request to the `main` branch.
-
-Please ensure that your code adheres to the project's coding standards.
+Open http://localhost:8000 and start experimenting.
 
 ## License
 
