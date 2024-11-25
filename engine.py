@@ -40,8 +40,7 @@ class RAGEngine:
         if os.getenv("TRACE_LOGFIRE", False):
             import logfire
             logfire.configure()
-            logfire.instrument_openai(Settings.llm._get_client())
-
+            logfire.instrument_openai(Settings._llm._get_client())
 
     def refresh_index(self):
         """
@@ -49,7 +48,7 @@ class RAGEngine:
         """
         # Get the path relative to the current file
         bank_docs = SimpleDirectoryReader(
-            input_files=[str(Path(__file__).parent.parent / "data" / "acme_bank_faq.txt")]
+            input_files=[str(Path(__file__).parent / "data" / "acme_bank_faq.txt")]
         ).load_data()
 
         self.bank_index = VectorStoreIndex.from_documents(bank_docs)
